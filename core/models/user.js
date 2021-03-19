@@ -4,11 +4,6 @@ const {
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate({Note}) {
       this.hasMany(Note, {foreignKey: 'userId', onDelete: 'CASCADE'})
     }
@@ -27,10 +22,13 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     lastToken: {
+      // Последний номер выданного jwt токена (номера увеличиваются на 1)
       type: DataTypes.INTEGER,
       allowNull: false,
       defaultValue: 0
-    }
+    },
+    // Номер последнего валидного токена (все номера меньше него невалидны)
+    validTokenNumber: DataTypes.INTEGER
   }, {
     sequelize,
     tableName: 'users',

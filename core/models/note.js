@@ -4,11 +4,6 @@ const {
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Note extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate({User}) {
       // define association here
       this.belongsTo(User, {foreignKey: 'userId'})
@@ -16,21 +11,35 @@ module.exports = (sequelize, DataTypes) => {
   };
   Note.init({
     text: {
+      // Текст заметки
       type: DataTypes.STRING(1000),
       allowNull: false,
     },
     sharedKey: {
+      // Токен для расшареной заметки
       type: DataTypes.STRING
     },
     shared: {
+      // Признак, что заметка расшарена
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: false
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW
     }
   }, {
     sequelize,
     modelName: 'Note',
-    tableName: 'notes'
+    tableName: 'notes',
+    timestamps: false
   });
   return Note;
 };
