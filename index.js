@@ -18,6 +18,7 @@ app.use('*', verifyToken, (req, res, next) => {
     res.status(404).json({
         result: 'not found',
         message: "Неверный url",
+        err: true
     })
 })
 
